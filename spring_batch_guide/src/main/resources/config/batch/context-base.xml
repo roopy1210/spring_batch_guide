@@ -6,10 +6,14 @@
 						http://www.springframework.org/schema/beans/spring-beans.xsd
 						http://www.springframework.org/schema/batch
 						http://www.springframework.org/schema/batch/spring-batch.xsd">
-	
+	<!--  
+	<import resource="classpath:/config/batch/context-batch-mapjob-launcher.xml" />					
+	<import resource="classpath:/config/batch/context-batch-datasource.xml" />
+	<import resource="classpath:/config/batch/context-batch-resourceless-transaction.xml" />
+	-->
 	<import resource="classpath:/config/batch/context-batch-job-launcher.xml" />					
 	<import resource="classpath:/config/batch/context-batch-datasource.xml" />
-	<import resource="classpath:/config/batch/context-batch-transaction.xml" />
+	<import resource="classpath:/config/batch/context-batch-transaction.xml" />	
 	<import resource="classpath:/config/batch/job/*.xml" />
 				
 </beans>						

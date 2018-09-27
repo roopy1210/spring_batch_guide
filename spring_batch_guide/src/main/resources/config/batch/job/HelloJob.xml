@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/batch
+						http://www.springframework.org/schema/batch/spring-batch.xsd">
+						
+	<job id="HelloJob" xmlns="http://www.springframework.org/schema/batch">
+		
+		<step id="HelloStep">
+			<tasklet>
+				<chunk reader="HelloReader"
+					processor="HelloProcessor"
+					writer="HelloWriter"
+					commit-interval="10"/>
+			</tasklet>
+		</step>
+	</job>
+	
+	<!-- Reader Bean Injection -->
+	<bean id="HelloReader" class="com.batchguide.hello.HelloReader" scope="step">
+		<property name="bseYm" value="#{jobParameters['BSEYM']}" />
+	</bean>
+	
+	<!-- Processor Bean Injection -->
+	<bean id="HelloProcessor" class="com.batchguide.hello.HelloProcessor" />
+	
+	<!-- Writer Bean Injection -->
+	<bean id="HelloWriter" class="com.batchguide.hello.HelloWriter" />
+</beans>
