@@ -75,6 +75,7 @@ public class RunBatch {
 		/*배치프로그램실행*/
 		int statusCode = command.start(jobPath, jobId, paramArr, opts);
 		
+		/*배치실행결과출력*/
 		LOGGER.info("Status Code: " + statusCode);
 		
 		if (statusCode == 0) {
