@@ -6,6 +6,9 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import egovframework.rte.bat.core.launch.support.EgovCommandLineRunner;
 
 /**
@@ -26,8 +29,12 @@ import egovframework.rte.bat.core.launch.support.EgovCommandLineRunner;
  */
 public class RunBatch {
 	
+	private static final Logger LOGGER = LoggerFactory.getLogger(RunBatch.class);
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void start(String...args) {
+		
+		
 		EgovCommandLineRunner command = new EgovCommandLineRunner();
 		
 		HashSet<String> opts = new HashSet<String>();
@@ -66,7 +73,16 @@ public class RunBatch {
 		String[] paramArr = paramList.stream().toArray(n -> new String[n]);
 		
 		/*배치프로그램실행*/
-		command.start(jobPath, jobId, paramArr, opts);
+		int statusCode = command.start(jobPath, jobId, paramArr, opts);
+		
+		LOGGER.info("Status Code: " + statusCode);
+		
+		if (statusCode == 0) {
+			System.out.println(jobId + " 성공 [SUCCESS]");
+		} else {
+			LOGGER.error(jobId + " 실패 [FAIL]");
+			LOGGER.error("Error Message: " + EgovCommandLineRunner.getErrorMessage());
+		}
 	}
 	
 }

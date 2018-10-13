@@ -38,7 +38,7 @@
 		</Logger>			
 		
 		<!-- Root level -->
-		<Root level="ERROR">
+		<Root level="INFO">
 			<AppenderRef ref="console" />
 		</Root>
 	</Loggers>
