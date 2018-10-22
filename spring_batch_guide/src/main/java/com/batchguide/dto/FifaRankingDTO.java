@@ -45,7 +45,7 @@ private String rank;
 	 * @param rank the rank to set
 	 */
 	public void setRank(String rank) {
-		this.rank = rank;
+		this.rank = rank.trim();
 	}
 
 	/**
@@ -59,7 +59,7 @@ private String rank;
 	 * @param rank_date the rank_date to set
 	 */
 	public void setRank_date(String rank_date) {
-		this.rank_date = rank_date.replace("-", "");
+		this.rank_date = rank_date.replace("-", "").trim();
 	}
 
 	/**
@@ -73,7 +73,7 @@ private String rank;
 	 * @param country_full the country_full to set
 	 */
 	public void setCountry_full(String country_full) {
-		this.country_full = country_full;
+		this.country_full = country_full.trim();
 	}
 
 	/**
@@ -87,7 +87,7 @@ private String rank;
 	 * @param country_abrv the country_abrv to set
 	 */
 	public void setCountry_abrv(String country_abrv) {
-		this.country_abrv = country_abrv;
+		this.country_abrv = country_abrv.trim();
 	}
 
 	/**
@@ -263,7 +263,7 @@ private String rank;
 	 */
 	@Override
 	public String toString() {
-		return "Ftd001VO [rank=" + rank + ", rank_date=" + rank_date + ", country_full=" + country_full
+		return "FifaRankingDTO [rank=" + rank + ", rank_date=" + rank_date + ", country_full=" + country_full
 				+ ", country_abrv=" + country_abrv + ", total_points=" + total_points + ", previous_points="
 				+ previous_points + ", rank_change=" + rank_change + ", cur_year_avg=" + cur_year_avg
 				+ ", cur_year_avg_weighted=" + cur_year_avg_weighted + ", last_year_avg=" + last_year_avg
