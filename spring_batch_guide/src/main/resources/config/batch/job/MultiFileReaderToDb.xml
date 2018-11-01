@@ -16,6 +16,7 @@
 		</step>
 	</job>
 	
+	<!-- Reader Task 작성 -->
 	<bean id="MultiFileReaderToDb" class="org.springframework.batch.item.file.MultiResourceItemReader" scope="step">
 		<property name="resources" value="file:C:/Users/pncrm/git/spring_batch_guide/spring_batch_guide/src/main/resources/config/batch/data/inputs/fifa_ranking_delimiter_*.csv" />
 		<property name="delegate" ref="delegateReader" />
