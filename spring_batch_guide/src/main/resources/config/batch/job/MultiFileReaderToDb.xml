@@ -6,20 +6,22 @@
 						http://www.springframework.org/schema/batch
 						http://www.springframework.org/schema/batch/spring-batch.xsd">
 						
-	<job id="FileDelimiterToDbJob" xmlns="http://www.springframework.org/schema/batch">
-		<step id="FileDelimiterToDbStep">
+	<job id="MultiFileReaderToDbJob" xmlns="http://www.springframework.org/schema/batch">
+		<step id="MultiFileReaderToDbStep">
 			<tasklet>
-				<chunk reader="FileDelimiterToDbReader"
-					writer="FileDelimiterToDbWriter"
+				<chunk reader="MultiFileReaderToDb"
+					writer="MultiFileWriterToDb"
 					commit-interval="1000"/>
 			</tasklet>
 		</step>
 	</job>
 	
-	<!-- Reader Task 작성 -->
-	<bean id="FileDelimiterToDbReader" class="org.springframework.batch.item.file.FlatFileItemReader" scope="step">
-		<property name="resource" value="file:C:/Users/pncrm/git/spring_batch_guide/spring_batch_guide/src/main/resources/config/batch/data/inputs/fifa_ranking_delimiter.csv" />
-		
+	<bean id="MultiFileReaderToDb" class="org.springframework.batch.item.file.MultiResourceItemReader" scope="step">
+		<property name="resources" value="file:C:/Users/pncrm/git/spring_batch_guide/spring_batch_guide/src/main/resources/config/batch/data/inputs/fifa_ranking_delimiter_*.csv" />
+		<property name="delegate" ref="delegateReader" />
+	</bean>
+	
+	<bean id="delegateReader" class="org.springframework.batch.item.file.FlatFileItemReader" scope="step">
 		<property name="lineMapper">
 			<bean class="egovframework.rte.bat.core.item.file.mapping.EgovDefaultLineMapper">
 				<property name="lineTokenizer">
@@ -40,9 +42,8 @@
 	</bean>
 	
 	<!-- Writer Bean Injection -->
-	<bean id="FileDelimiterToDbWriter" class="org.mybatis.spring.batch.MyBatisBatchItemWriter">
+	<bean id="MultiFileWriterToDb" class="org.mybatis.spring.batch.MyBatisBatchItemWriter">
 		<property name="statementId" value="insertFifaRanking" />
 		<property name="sqlSessionTemplate" ref="batchSqlSessionTemplate" />
 	</bean>
-	
 </beans>
