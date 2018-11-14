@@ -16,7 +16,7 @@
 		</step>
 	</job>
 	
-	<!-- Reader Task 작성 -->
+	<!-- Reader Task 작성 --> 
 	<bean id="DbToFileReader" class="org.mybatis.spring.batch.MyBatisPagingItemReader" scope="step">
 		<!-- Query ID 설정 -->
 		<property name="queryId" value="selectFifaRankings" />
