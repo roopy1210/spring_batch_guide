@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/batch
+						http://www.springframework.org/schema/batch/spring-batch.xsd">
+						
+	<job id="DbToFileJob" xmlns="http://www.springframework.org/schema/batch">
+		<step id="DbToFileStep">
+			<tasklet>
+				<chunk reader="DbToFileReader"
+					writer="DbToFileWriter"
+					commit-interval="1000"/>
+			</tasklet>
+		</step>
+	</job>
+	
+	<!-- Reader Task 작성 -->
+	<bean id="DbToFileReader" class="org.mybatis.spring.batch.MyBatisPagingItemReader" scope="step">
+		<!-- Query ID 설정 -->
+		<property name="queryId" value="selectFifaRankings" />
+		
+		<!-- PageSize 설정. 생략하면 default 적용. default: 10 -->
+		<property name="pageSize" value="1000" />
+		
+		<!-- parameter 설정: 파라미터로 전달받은  날짜 이후 순위 조회를 위한 날짜 파라미터 설정 -->
+		<property name="parameterValues">
+			<map>
+				<entry key="rnkDate" value="20170101" />
+			</map>
+		</property>
+		
+		<!-- sqlSession -->
+		<property name="sqlSessionFactory" ref="sqlSession" />
+	</bean>
+	
+	<!-- Writer Bean Injection -->
+	<bean id="DbToFileWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
+		<property name="resource" value="file:C:/Users/pncrm/git/spring_batch_guide/spring_batch_guide/src/main/resources/config/batch/data/outputs/fifa_ranking_out.csv" />
+		<property name="encoding" value="utf-8" />
+		<property name="lineAggregator">
+			<bean class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="delimiter" value="," />
+				<property name="fieldExtractor">
+					<bean class="egovframework.rte.bat.core.item.file.transform.EgovFieldExtractor">
+						<property name="names" value="rnk,rnkDate,countryFull,countryAbrv,totalPoints,previousPoints,rankChange
+							,curYearAvg,curYearAvgWeighted,lastYearAvg,lastYearAvgWeighted,twoYearAgoAvg,twoYearAgoWeighted
+							,threeYearAgoAvg,threeYearAgoWeighted,confederation" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+</beans>

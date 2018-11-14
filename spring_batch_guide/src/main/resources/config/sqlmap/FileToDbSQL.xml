@@ -5,7 +5,7 @@
 <mapper namespace="fileToDbSQL">
 
 	<insert id="insertFifaRanking" parameterType="com.batchguide.dto.FifaRankingDTO">
-		insert /* id:insertFifaRanking| Fifa 순위 저장 | fileToDbSQL.xml */ 
+		insert /* id:insertFifaRanking| Fifa 순위 저장 | FileToDbSQL.xml */ 
 		  into fifa_ranking
 		  	   (rnk
 		  	  , rnk_date
