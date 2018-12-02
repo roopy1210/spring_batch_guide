@@ -6,18 +6,18 @@
 						http://www.springframework.org/schema/batch
 						http://www.springframework.org/schema/batch/spring-batch.xsd">
 						
-	<job id="DbToFileJob" xmlns="http://www.springframework.org/schema/batch">
-		<step id="DbToFileStep">
+	<job id="dbToFileJob" xmlns="http://www.springframework.org/schema/batch">
+		<step id="dbToFileStep">
 			<tasklet>
-				<chunk reader="DbToFileReader"
-					writer="DbToFileWriter"
+				<chunk reader="dbToFileReader"
+					writer="dbToFileWriter"
 					commit-interval="1000"/>
 			</tasklet>
 		</step>
 	</job>
 	
 	<!-- Reader Task 작성 --> 
-	<bean id="DbToFileReader" class="org.mybatis.spring.batch.MyBatisPagingItemReader" scope="step">
+	<bean id="dbToFileReader" class="org.mybatis.spring.batch.MyBatisPagingItemReader" scope="step">
 		<!-- Query ID 설정 -->
 		<property name="queryId" value="selectFifaRankings" />
 		
@@ -32,11 +32,11 @@
 		</property>
 		
 		<!-- sqlSession -->
-		<property name="sqlSessionFactory" ref="sqlSession" />
+		<property name="sqlSessionFactory" ref="mysqlSqlSession" />
 	</bean>
 	
 	<!-- Writer Bean Injection -->
-	<bean id="DbToFileWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
+	<bean id="dbToFileWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
 		<property name="resource" value="file:C:/Users/pncrm/git/spring_batch_guide/spring_batch_guide/src/main/resources/config/batch/data/outputs/fifa_ranking_out.csv" />
 		<property name="encoding" value="utf-8" />
 		<property name="lineAggregator">

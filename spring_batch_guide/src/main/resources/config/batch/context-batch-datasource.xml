@@ -22,11 +22,20 @@
 		</property>
 	</bean>
 	
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-		<property name="driverClassName" value="${DriverClassName}" />
-		<property name="url" value="${Url}" />
-		<property name="username" value="${UserName}" />
-		<property name="password" value="${Password}" />
+	<bean id="mysqlDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${spring.datasource.mysql.DriverClassName}" />
+		<property name="url" value="${spring.datasource.mysql.Url}" />
+		<property name="username" value="${spring.datasource.mysql.UserName}" />
+		<property name="password" value="${spring.datasource.mysql.Password}" />
+		<property name="initialSize" value="2" />
+		<property name="maxActive" value="100" />
+	</bean>
+	
+	<bean id="oracleDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${spring.datasource.oracle.DriverClassName}" />
+		<property name="url" value="${spring.datasource.oracle.Url}" />
+		<property name="username" value="${spring.datasource.oracle.UserName}" />
+		<property name="password" value="${spring.datasource.oracle.Password}" />
 		<property name="initialSize" value="2" />
 		<property name="maxActive" value="100" />
 	</bean>

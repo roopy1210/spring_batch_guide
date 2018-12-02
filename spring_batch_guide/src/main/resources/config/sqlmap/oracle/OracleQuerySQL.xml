@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="oracleQuerySQL">
+	<insert id="insertFifaRanking1" parameterType="com.batchguide.dto.FifaRankingDTO">
+		INSERT /* id:insertFifaRanking1| Fifa 순위 저장 | DbToDbSQL.xml */ 
+		  INTO FIFA_RANKING
+		  	   (RNK
+		  	  , RNK_DATE
+		  	  , COUNTRY_FULL
+		  	  , COUNTRY_ABRV
+		  	  , TOTAL_POINTS
+		  	  , PREVIOUS_POINTS
+		  	  , RANK_CHANGE
+		  	  , CUR_YEAR_AVG
+		  	  , CUR_YEAR_AVG_WEIGHTED
+		  	  , LAST_YEAR_AVG
+		  	  , LAST_YEAR_AVG_WEIGHTED
+		  	  , TWO_YEAR_AGO_AVG
+		  	  , TWO_YEAR_AGO_WEIGHTED
+		  	  , THREE_YEAR_AGO_AVG
+		  	  , THREE_YEAR_AGO_WEIGHTED
+		  	  , CONFEDERATION)
+		VALUES (#{rank}
+		      , #{rank_date}
+		      , #{country_full}
+		      , #{country_abrv}
+		      , #{total_points}
+		      , #{previous_points}
+		      , #{rank_change}
+		      , #{cur_year_avg}
+		      , #{cur_year_avg_weighted}
+		      , #{last_year_avg}
+		      , #{last_year_avg_weighted} 
+		      , #{two_year_ago_avg}
+		      , #{two_year_ago_weighted}
+		      , #{three_year_ago_avg}
+		      , #{three_year_ago_weighted}
+		      , #{confederation})
+	</insert>
+</mapper>

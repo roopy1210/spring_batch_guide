@@ -73,7 +73,9 @@ public class RunBatch {
 		String[] paramArr = paramList.stream().toArray(n -> new String[n]);
 		
 		/*배치프로그램실행*/
-		int statusCode = command.start(jobPath, jobId, paramArr, opts);
+		int statusCode = 0;
+		
+		statusCode = command.start(jobPath, jobId, paramArr, opts);
 		
 		/*배치실행결과출력*/
 		LOGGER.info("Status Code: " + statusCode);

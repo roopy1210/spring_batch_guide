@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="mySQLQuerySQL">
+
+	<select id="selectFifaRankings" resultType="com.batchguide.vo.FifaRankingVO">
+		select /* id:selectFifaRankings| Fifa 순위 조회 | DbToFileSQL.xml */
+		       a.rnk 
+		     , a.rnk_date 					
+		 	 , a.country_full 				
+	         , a.country_abrv
+	         , a.total_points
+	         , a.previous_points
+	         , a.rank_change
+	         , a.cur_year_avg
+	         , a.cur_year_avg_weighted
+	         , a.last_year_avg
+	         , a.last_year_avg_weighted
+	         , a.two_year_ago_avg
+	         , a.two_year_ago_weighted
+	         , a.three_year_ago_avg
+	         , a.three_year_ago_weighted
+	         , a.confederation
+		  from fifa_ranking a
+		 where rnk_date > #{rnkDate}
+		 limit #{_skiprows}, #{_pagesize}
+	</select>
+	
+	<insert id="insertFifaRanking" parameterType="com.batchguide.dto.FifaRankingDTO">
+		insert /* id:insertFifaRanking| Fifa 순위 저장 | FileToDbSQL.xml */ 
+		  into fifa_ranking
+		  	   (rnk
+		  	  , rnk_date
+		  	  , country_full
+		  	  , country_abrv
+		  	  , total_points
+		  	  , previous_points
+		  	  , rank_change
+		  	  , cur_year_avg
+		  	  , cur_year_avg_weighted
+		  	  , last_year_avg
+		  	  , last_year_avg_weighted
+		  	  , two_year_ago_avg
+		  	  , two_year_ago_weighted
+		  	  , three_year_ago_avg
+		  	  , three_year_ago_weighted
+		  	  , confederation)
+		values (#{rank}
+		      , #{rank_date}
+		      , #{country_full}
+		      , #{country_abrv}
+		      , #{total_points}
+		      , #{previous_points}
+		      , #{rank_change}
+		      , #{cur_year_avg}
+		      , #{cur_year_avg_weighted}
+		      , #{last_year_avg}
+		      , #{last_year_avg_weighted} 
+		      , #{two_year_ago_avg}
+		      , #{two_year_ago_weighted}
+		      , #{three_year_ago_avg}
+		      , #{three_year_ago_weighted}
+		      , #{confederation})
+	</insert>
+	
+</mapper>

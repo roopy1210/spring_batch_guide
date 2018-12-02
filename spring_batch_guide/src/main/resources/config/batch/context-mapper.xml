@@ -7,20 +7,37 @@
 						http://www.springframework.org/schema/batch
 						http://www.springframework.org/schema/batch/spring-batch-2.1.xsd">
 						
-	<!-- myBatis 설정 -->
-	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="dataSource" />
+	<!-- MySql myBatis 설정 -->
+	<bean id="mysqlSqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="mysqlDataSource" />
 		<property name="configLocation" value="classpath:/config/sqlmap/sql-mapper-config.xml" />
-		<property name="mapperLocations" value="classpath:/config/sqlmap/**/*SQL.xml" />
+		<property name="mapperLocations" value="classpath:/config/sqlmap/mysql/**/*SQL.xml" />
 	</bean>
 	
-	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
-		<constructor-arg index="0" ref="sqlSession" />
+	<bean id="mysqlSqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="mysqlSqlSession" />
 		<constructor-arg index="1" value="SIMPLE" />
 	</bean>
 	
-	<bean id="batchSqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
-		<constructor-arg index="0" ref="sqlSession" />
+	<bean id="batchMysqlSqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="mysqlSqlSession" />
 		<constructor-arg index="1" value="BATCH" />
 	</bean>
+	
+	<!-- Oracle myBatis 설정 -->
+	<bean id="oracleSqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="oracleDataSource" />
+		<property name="configLocation" value="classpath:/config/sqlmap/sql-mapper-config.xml" />
+		<property name="mapperLocations" value="classpath:/config/sqlmap/oracle/**/*SQL.xml" />
+	</bean>
+	
+	<bean id="oracleSqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="oracleSqlSession" />
+		<constructor-arg index="1" value="SIMPLE" />
+	</bean>
+	
+	<bean id="batchOracleSqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="oracleSqlSession" />
+		<constructor-arg index="1" value="BATCH" />
+	</bean>	
 </beans>

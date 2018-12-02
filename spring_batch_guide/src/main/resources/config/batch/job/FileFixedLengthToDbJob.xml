@@ -6,18 +6,18 @@
 						http://www.springframework.org/schema/batch
 						http://www.springframework.org/schema/batch/spring-batch.xsd">
 						
-	<job id="FileFixedLengthToDbJob" xmlns="http://www.springframework.org/schema/batch">
-		<step id="FileFixedLengthToDbStep">
+	<job id="fileFixedLengthToDbJob" xmlns="http://www.springframework.org/schema/batch">
+		<step id="fileFixedLengthToDbStep">
 			<tasklet>
-				<chunk reader="FileFixedLengthToDbReader"
-					writer="FileFixedLengthToDbWriter"
+				<chunk reader="fileFixedLengthToDbReader"
+					writer="fileFixedLengthToDbWriter"
 					commit-interval="1000"/>
 			</tasklet>
 		</step>
 	</job>
 	
 	<!-- FileFixedLengthToDbReader -->
-	<bean id="FileFixedLengthToDbReader" class="org.springframework.batch.item.file.FlatFileItemReader" scope="step">
+	<bean id="fileFixedLengthToDbReader" class="org.springframework.batch.item.file.FlatFileItemReader" scope="step">
 		<property name="resource" value="file:C:\Users\pncrm\git\spring_batch_guide\spring_batch_guide\data\inputs\fifa_ranking_fixed_length.csv" />
 		<property name="lineMapper">
 			<bean class="egovframework.rte.bat.core.item.file.mapping.EgovDefaultLineMapper">
@@ -39,9 +39,9 @@
 	</bean>
 	
 	<!-- FileFixedLengthToDbWriter -->
-	<bean id="FileFixedLengthToDbWriter" class="org.mybatis.spring.batch.MyBatisBatchItemWriter">
+	<bean id="fileFixedLengthToDbWriter" class="org.mybatis.spring.batch.MyBatisBatchItemWriter">
 		<property name="statementId" value="insertFifaRanking" />
-		<property name="sqlSessionTemplate" ref="batchSqlSessionTemplate" />
+		<property name="sqlSessionTemplate" ref="batchMysqlSqlSessionTemplate" />
 	</bean>
 	
 </beans>
