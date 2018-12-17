@@ -23,7 +23,7 @@ public class ColumnRangePartitioner implements Partitioner {
 	private String column;
 
 	/**
-	 * The name of the SQL table the data are in.
+	 * 테이블이름 설정
 	 *
 	 * @param table the name of the table
 	 */
@@ -32,7 +32,7 @@ public class ColumnRangePartitioner implements Partitioner {
 	}
 
 	/**
-	 * The name of the column to partition.
+	 * 분할대상 컬럼명 설정
 	 *
 	 * @param column the column name.
 	 */
@@ -41,7 +41,7 @@ public class ColumnRangePartitioner implements Partitioner {
 	}
 
 	/**
-	 * The data source for connecting to the database.
+	 * 데이터베이스 접속을 위한 DataSource 설정
 	 *
 	 * @param dataSource a {@link DataSource}
 	 */
@@ -50,10 +50,7 @@ public class ColumnRangePartitioner implements Partitioner {
 	}
 
 	/**
-	 * Partition a database table assuming that the data in the column specified
-	 * are uniformly distributed. The execution context values will have keys
-	 * <code>minValue</code> and <code>maxValue</code> specifying the range of
-	 * values to consider in each partition.
+	 * 테이블에 지정된 열의 최소값과 최대값을 반환한다.
 	 *
 	 * @see Partitioner#partition(int)
 	 */
