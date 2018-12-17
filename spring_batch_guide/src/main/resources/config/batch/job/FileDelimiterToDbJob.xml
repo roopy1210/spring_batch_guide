@@ -18,7 +18,7 @@
 	
 	<!-- Reader 설정 -->
 	<bean id="fileDelimiterToDbReader" class="org.springframework.batch.item.file.FlatFileItemReader" scope="step">
-		<property name="resource" value="file:C:/Users/pncrm/git/spring_batch_guide/spring_batch_guide/src/main/resources/config/batch/data/inputs/fifa_ranking_delimiter.csv" />
+		<property name="resource" value="file:C:/Users/pncrm/git/spring_batch_guide/spring_batch_guide/src/main/resources/config/batch/data/inputs/BlackFriday.csv" />
 		
 		<property name="lineMapper">
 			<bean class="egovframework.rte.bat.core.item.file.mapping.EgovDefaultLineMapper">

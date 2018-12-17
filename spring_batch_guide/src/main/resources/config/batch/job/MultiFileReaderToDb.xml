@@ -6,18 +6,18 @@
 						http://www.springframework.org/schema/batch
 						http://www.springframework.org/schema/batch/spring-batch.xsd">
 						
-	<job id="MultiFileReaderToDbJob" xmlns="http://www.springframework.org/schema/batch">
-		<step id="MultiFileReaderToDbStep">
+	<job id="multiFileReaderToDbJob" xmlns="http://www.springframework.org/schema/batch">
+		<step id="multiFileReaderStep">
 			<tasklet>
-				<chunk reader="MultiFileReaderToDb"
-					writer="MultiFileWriterToDb"
+				<chunk reader="multiFileDbReader"
+					writer="multiFileDbWriter"
 					commit-interval="1000"/>
 			</tasklet>
 		</step>
 	</job>
 	
 	<!-- Reader Task 작성 -->
-	<bean id="MultiFileReaderToDb" class="org.springframework.batch.item.file.MultiResourceItemReader" scope="step">
+	<bean id="multiFileDbReader" class="org.springframework.batch.item.file.MultiResourceItemReader" scope="step">
 		<property name="resources" value="file:C:/Users/pncrm/git/spring_batch_guide/spring_batch_guide/src/main/resources/config/batch/data/inputs/fifa_ranking_delimiter_*.csv" />
 		<property name="delegate" ref="delegateReader" />
 	</bean>
@@ -43,8 +43,8 @@
 	</bean>
 	
 	<!-- Writer Bean Injection -->
-	<bean id="MultiFileWriterToDb" class="org.mybatis.spring.batch.MyBatisBatchItemWriter">
+	<bean id="multiFileDbWriter" class="org.mybatis.spring.batch.MyBatisBatchItemWriter">
 		<property name="statementId" value="insertFifaRanking" />
-		<property name="sqlSessionTemplate" ref="batchSqlSessionTemplate" />
+		<property name="sqlSessionTemplate" ref="batchMysqlSqlSessionTemplate" />
 	</bean>
 </beans>

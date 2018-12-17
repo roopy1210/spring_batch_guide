@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/batch
+						http://www.springframework.org/schema/batch/spring-batch.xsd">
+						
+	<description>
+	<![CDATA[예제는 파일데이터를 읽어서 MySQL, Oracle DB에 적재하는 예제이다.
+		Reader는 FlatItemReader를 사용하며, Writer는 CompositeItemWriter를 사용하여서
+		처리한다.
+	]]>
+	</description>
+	
+	<job id="compositeItemWriterJob" xmlns="http://www.springframework.org/schema/batch">
+		<step id="compositeWriterStep">
+			<tasklet>
+				<chunk reader="compositeReader"
+					writer="compositeWriter"
+					commit-interval="10"/>
+			</tasklet>
+		</step>
+	</job>
+	
+	<!-- Reader 설정 -->
+	<bean id="compositeReader" class="org.springframework.batch.item.file.FlatFileItemReader" scope="step">
+		<property name="resource" value="file:C:/Users/pncrm/git/spring_batch_guide/spring_batch_guide/src/main/resources/config/batch/data/inputs/fifa_ranking_delimiter_1.csv" />
+		
+		<property name="lineMapper">
+			<bean class="egovframework.rte.bat.core.item.file.mapping.EgovDefaultLineMapper">
+				<property name="lineTokenizer">
+					<bean class="egovframework.rte.bat.core.item.file.transform.EgovDelimitedLineTokenizer">
+						<property name="delimiter" value=","/>
+					</bean>
+				</property>
+				<property name="objectMapper">
+					<bean class="egovframework.rte.bat.core.item.file.mapping.EgovObjectMapper">
+						<property name="type" value="com.batchguide.dto.FifaRankingDTO" />
+						<property name="names" value="rank,country_full,country_abrv,total_points,previous_points,rank_change,cur_year_avg,
+							cur_year_avg_weighted,last_year_avg,last_year_avg_weighted,two_year_ago_avg,two_year_ago_weighted,three_year_ago_avg,
+							three_year_ago_weighted,confederation,rank_date" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- CompositeWriter 설정 -->
+	<bean id="compositeWriter" class="org.springframework.batch.item.support.CompositeItemWriter">
+		<property name="delegates">
+			<list>
+				<ref bean="mysqlDbWriter" /> 
+				<ref bean="oracleDbWriter" />
+			</list>
+		</property>
+	</bean>
+	
+	
+	<!-- MySQL Writer 설정 -->
+	<bean id="mysqlDbWriter" class="org.mybatis.spring.batch.MyBatisBatchItemWriter">
+		<property name="statementId" value="insertFifaRanking" />
+		<property name="sqlSessionTemplate" ref="batchMysqlSqlSessionTemplate" />
+	</bean>
+	
+	<!-- Oracle Writer 설정 -->
+	<bean id="oracleDbWriter" class="org.mybatis.spring.batch.MyBatisBatchItemWriter">
+		<property name="statementId" value="insertFifaRanking1" />
+		<property name="sqlSessionTemplate" ref="batchOracleSqlSessionTemplate" />
+	</bean>	
+	
+</beans>

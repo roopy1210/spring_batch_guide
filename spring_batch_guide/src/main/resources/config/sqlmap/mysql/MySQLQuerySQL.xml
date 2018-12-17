@@ -5,7 +5,7 @@
 <mapper namespace="mySQLQuerySQL">
 
 	<select id="selectFifaRankings" resultType="com.batchguide.vo.FifaRankingVO">
-		select /* id:selectFifaRankings| Fifa 순위 조회 | DbToFileSQL.xml */
+		select /* id:selectFifaRankings| Fifa 순위 조회 | MySQLQuerySQL.xml */
 		       a.rnk 
 		     , a.rnk_date 					
 		 	 , a.country_full 				
@@ -28,7 +28,7 @@
 	</select>
 	
 	<insert id="insertFifaRanking" parameterType="com.batchguide.dto.FifaRankingDTO">
-		insert /* id:insertFifaRanking| Fifa 순위 저장 | FileToDbSQL.xml */ 
+		insert /* id:insertFifaRanking| Fifa 순위 저장 | MySQLQuerySQL.xml */ 
 		  into fifa_ranking
 		  	   (rnk
 		  	  , rnk_date
@@ -62,6 +62,55 @@
 		      , #{three_year_ago_avg}
 		      , #{three_year_ago_weighted}
 		      , #{confederation})
+	</insert>
+	
+	<select id="selectBlackFridays" resultType="com.batchguide.vo.BlackFridayVO">
+	<![CDATA[
+		select /* id:selectBlackFridays| BlackFriday 데이터 조회 | MySQLQuerySQL.xml */
+		       user_id
+		  	 , product_id
+		  	 , gender
+		  	 , age
+		  	 , occupation
+		  	 , city_category
+		  	 , stay_in_current_city_years
+		  	 , marital_status
+		  	 , product_category_1
+		  	 , product_category_2
+		  	 , product_category_3
+		  	 , purchase
+		  from black_friday 
+		 where user_id >= #{minId} and user_id <= #{maxId}
+	]]>
+	</select>
+	
+	<insert id="insertBlackFridayForMySql" parameterType="com.batchguide.dto.BlackFridayDTO">
+		insert /* id:insertBlackFridayForMySql| BlackFriday 데이터 저장 | MySQLQuerySQL.xml */ 
+		  into black_friday
+		  	   (user_id
+		  	  , product_id
+		  	  , gender
+		  	  , age
+		  	  , occupation
+		  	  , city_category
+		  	  , stay_in_current_city_years
+		  	  , marital_status
+		  	  , product_category_1
+		  	  , product_category_2
+		  	  , product_category_3
+		  	  , purchase)
+		values (#{user_id}
+		      , #{product_id}
+		      , #{gender}
+		      , #{age}
+		      , #{occupation}
+		      , #{city_category}
+		      , #{stay_in_current_city_years}
+		      , #{marital_status}
+		      , #{product_category_1}
+		      , #{product_category_2}
+		      , #{product_category_3} 
+		      , #{purchase})
 	</insert>
 	
 </mapper>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/batch
+						http://www.springframework.org/schema/batch/spring-batch.xsd">
+						
+	<job id="blackFridayFileToDbJob" xmlns="http://www.springframework.org/schema/batch">
+		<step id="blackFridayFileToDbStep">
+			<tasklet>
+				<chunk reader="blackFridayFileToDbReader"
+					writer="blackFridayFileToDbWriter"
+					commit-interval="1000"/>
+			</tasklet>
+		</step>
+	</job>
+	
+	<!-- Reader 설정 -->
+	<bean id="blackFridayFileToDbReader" class="org.springframework.batch.item.file.FlatFileItemReader" scope="step">
+		<property name="resource" value="file:C:/Users/pncrm/git/spring_batch_guide/spring_batch_guide/src/main/resources/config/batch/data/inputs/BlackFriday.csv" />
+		
+		<property name="lineMapper">
+			<bean class="egovframework.rte.bat.core.item.file.mapping.EgovDefaultLineMapper">
+				<property name="lineTokenizer">
+					<bean class="egovframework.rte.bat.core.item.file.transform.EgovDelimitedLineTokenizer">
+						<property name="delimiter" value=","/>
+					</bean>
+				</property>
+				<property name="objectMapper">
+					<bean class="egovframework.rte.bat.core.item.file.mapping.EgovObjectMapper">
+						<property name="type" value="com.batchguide.dto.BlackFridayDTO" />
+						<property name="names" value="user_id,product_id,gender,age,occupation,city_category,stay_in_current_city_years,marital_status,product_category_1,
+							product_category_2,product_category_3,purchase" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- Writer 설정 -->
+	<bean id="blackFridayFileToDbWriter" class="org.mybatis.spring.batch.MyBatisBatchItemWriter">
+		<property name="statementId" value="insertBlackFridayForMySql" />
+		<property name="sqlSessionTemplate" ref="batchMysqlSqlSessionTemplate" />
+	</bean>
+	
+	
+</beans>
