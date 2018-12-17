@@ -33,12 +33,12 @@
 	<!-- READER, WIRTER 설정 -->
 	<step id="masterRangePartition" xmlns="http://www.springframework.org/schema/batch">
 		<tasklet>
-			<chunk writer="blackFridayFileToDbWriter" reader="blackFridayFileToDbReader" commit-interval="1000" />
+			<chunk writer="blackFridayWriter" reader="blackFridayReader" commit-interval="1000" />
 		</tasklet>
 	</step>
 	
 	<!-- Reader 설정 -->
-	<bean id="blackFridayFileToDbReader" class="org.mybatis.spring.batch.MyBatisCursorItemReader" scope="step">
+	<bean id="blackFridayReader" class="org.mybatis.spring.batch.MyBatisCursorItemReader" scope="step">
 		<!-- queryId 설정 -->
 		<property name="queryId" value="selectBlackFridays" />
 		
@@ -55,7 +55,7 @@
 	</bean>
 	
 	<!-- Writer 설정 -->
-	<bean id="blackFridayFileToDbWriter" class="org.mybatis.spring.batch.MyBatisBatchItemWriter">
+	<bean id="blackFridayWriter" class="org.mybatis.spring.batch.MyBatisBatchItemWriter">
 		<property name="statementId" value="insertBlackFridayForOracle" />
 		<property name="sqlSessionTemplate" ref="batchOracleSqlSessionTemplate" />
 	</bean>
