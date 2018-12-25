@@ -113,4 +113,33 @@
 		      , #{purchase})
 	</insert>
 	
+	<insert id="insertBlackFridayForMySqlPartition" parameterType="com.batchguide.vo.BlackFridayVO">
+		insert /* id:insertBlackFridayForMySql| BlackFriday 데이터 저장 | MySQLQuerySQL.xml */ 
+		  into black_friday
+		  	   (user_id
+		  	  , product_id
+		  	  , gender
+		  	  , age
+		  	  , occupation
+		  	  , city_category
+		  	  , stay_in_current_city_years
+		  	  , marital_status
+		  	  , product_category_1
+		  	  , product_category_2
+		  	  , product_category_3
+		  	  , purchase)
+		values (#{userId}
+		      , #{productId}
+		      , #{gender}
+		      , #{age}
+		      , #{occupation}
+		      , #{cityCategory}
+		      , #{stayInCurrentCityYears}
+		      , #{maritalStatus}
+		      , #{productCategory1}
+		      , #{productCategory2}
+		      , #{productCategory3} 
+		      , #{purchase})
+	</insert>
+	
 </mapper>

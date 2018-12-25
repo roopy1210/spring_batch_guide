@@ -4,7 +4,7 @@
 	
 <mapper namespace="oracleQuerySQL">
 	<insert id="insertFifaRanking1" parameterType="com.batchguide.dto.FifaRankingDTO">
-		INSERT /* id:insertFifaRanking1| Fifa 순위 저장 | DbToDbSQL.xml */ 
+		INSERT /* id:insertFifaRanking1| Fifa 순위 저장 | OracleQuerySQL.xml */ 
 		  INTO FIFA_RANKING
 		  	   (RNK
 		  	  , RNK_DATE
@@ -41,21 +41,21 @@
 	</insert>
 	
 	<insert id="insertBlackFridayForOracle" parameterType="com.batchguide.vo.BlackFridayVO">
-		insert /* id:insertBlackFridayForOracle| BlackFriday 데이터 저장 | MySQLQuerySQL.xml */ 
-		  into black_friday t
-		  	   (user_id
-		  	  , product_id
-		  	  , gender
-		  	  , age
-		  	  , occupation
-		  	  , city_category
-		  	  , stay_in_current_city_years
-		  	  , marital_status
-		  	  , product_category_1
-		  	  , product_category_2
-		  	  , product_category_3
-		  	  , purchase)
-		values (#{userId}
+		INSERT /* id:insertBlackFridayForOracle| BlackFriday 데이터 저장 | OracleQuerySQL.xml */ 
+		  INTO BLACK_FRIDAY T
+		  	   (USER_ID
+		  	  , PRODUCT_ID
+		  	  , GENDER
+		  	  , AGE
+		  	  , OCCUPATION
+		  	  , CITY_CATEGORY
+		  	  , STAY_IN_CURRENT_CITY_YEARS
+		  	  , MARITAL_STATUS
+		  	  , PRODUCT_CATEGORY_1
+		  	  , PRODUCT_CATEGORY_2
+		  	  , PRODUCT_CATEGORY_3
+		  	  , PURCHASE)
+		VALUES (#{userId}
 		      , #{productId}
 		      , #{gender}
 		      , #{age}
@@ -68,4 +68,24 @@
 		      , #{productCategory3} 
 		      , #{purchase})
 	</insert>
+	
+	<select id="selectBlackFridaysForOracle" resultType="com.batchguide.vo.BlackFridayVO">
+	<![CDATA[
+		SELECT /* id:selectBlackFridaysForOracle| BlackFriday 데이터 조회 | OracleQuerySQL.xml */
+		       USER_ID
+		  	 , PRODUCT_ID
+		  	 , GENDER
+		  	 , AGE
+		  	 , OCCUPATION
+		  	 , CITY_CATEGORY
+		  	 , STAY_IN_CURRENT_CITY_YEARS
+		  	 , MARITAL_STATUS
+		  	 , PRODUCT_CATEGORY_1
+		  	 , PRODUCT_CATEGORY_2
+		  	 , PRODUCT_CATEGORY_3
+		  	 , PURCHASE
+		  FROM BLACK_FRIDAY 
+		 WHERE MOD(ORA_HASH(USER_ID),#{parallelTotal,jdbcType=INTEGER})=#{parallelIndex,jdbcType=INTEGER}
+	]]>
+	</select>	
 </mapper>

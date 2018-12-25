@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/batch
+						http://www.springframework.org/schema/batch/spring-batch.xsd">
+						
+	<description>
+	<![CDATA[
+	이 예제는 대용량 데이터 처리 시 작업을 분할 하여 처리하는 Partitioner 예제이다.
+	]]>
+	</description>
+						
+	<job id="partitionJob" xmlns="http://www.springframework.org/schema/batch">
+		<step id="partitionStep">
+			<!-- slave -->
+			<partition step="masterPartition" partitioner="partioner">
+				<handler grid-size="5" task-executor="taskExecutor"/>
+			</partition>
+		</step>
+	</job>
+	
+	<!-- Partitioner BEAN 설정 -->
+	<bean id="partioner" class="com.batchguide.partitioner.PartitionerHelper" />
+
+	<!-- TaskExecutor BEAN 설정 -->
+	<bean id="taskExecutor" class="org.springframework.core.task.SimpleAsyncTaskExecutor" />
+
+	<!-- READER, WIRTER 설정 -->
+	<step id="masterPartition" xmlns="http://www.springframework.org/schema/batch">
+		<tasklet>
+			<chunk writer="blackFridayWriterPartition" reader="blackFridayReaderPartition" commit-interval="1000" />
+		</tasklet>
+	</step>
+	
+	<!-- Reader 설정 -->
+	<bean id="blackFridayReaderPartition" class="org.mybatis.spring.batch.MyBatisCursorItemReader" scope="step">
+		<!-- queryId 설정 -->
+		<property name="queryId" value="selectBlackFridaysForOracle" />
+		
+		<!-- parameters 설정 -->
+		<property name="parameterValues">
+			<map>
+				<entry key="parallelTotal" value="#{stepExecutionContext[parallelTotal]}"/>
+				<entry key="parallelIndex" value="#{stepExecutionContext[parallelIndex]}"/>
+			</map>
+		</property>
+		
+		<!-- sqlSession -->
+		<property name="sqlSessionFactory" ref="oracleSqlSession" />
+	</bean>
+	
+	<!-- Writer 설정 -->
+	<bean id="blackFridayWriterPartition" class="org.mybatis.spring.batch.MyBatisBatchItemWriter">
+		<property name="statementId" value="insertBlackFridayForMySqlPartition" />
+		<property name="sqlSessionTemplate" ref="batchMysqlSqlSessionTemplate" />
+	</bean>
+	
+</beans>
