@@ -19,7 +19,7 @@
 		<springframework.jdbc.core.version>5.0.8.RELEASE</springframework.jdbc.core.version>
 		<servlet.api.version>2.5</servlet.api.version>
 		<persistence.api.version>1.0</persistence.api.version>
-		<ojdbc.version>6</ojdbc.version>
+		<ojdbc.version>7</ojdbc.version>
 		<commons.dbcp.version>1.4</commons.dbcp.version>
 		<log4j.core.version>2.9.1</log4j.core.version>
 		<log4j.version>1.2.17</log4j.version>
@@ -76,6 +76,27 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>5.0.8.RELEASE</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>5.0.8.RELEASE</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-context</artifactId>
+		    <version>5.0.8.RELEASE</version>
+		</dependency>		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>5.0.8.RELEASE</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.data</groupId>
+		    <artifactId>spring-data-commons</artifactId>
+		    <version>2.1.2.RELEASE</version>
+		</dependency>
 		
 		<!-- servlet -->
 		<dependency>
@@ -114,13 +135,20 @@
 			<version>${log4jdbc.log4j2.jdbc4.1.version}</version>
 		</dependency>
 		
+		<!-- oracle -->
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc7</artifactId>
+			<version>12.1.0</version>
+        </dependency>
+		
 		<!-- mySql -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.11</version>
 		</dependency>
-
+		
 		<!-- myBatis -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
@@ -137,10 +165,22 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.1.4</version>
+			<version>2.8.11</version>
 		</dependency>
 		
+		<!-- JUnit -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>5.0.1</version>
+			<scope>test</scope>
+		</dependency>
 		
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>1</version>
+		</dependency>		
 	</dependencies>
 		
 	<build>
