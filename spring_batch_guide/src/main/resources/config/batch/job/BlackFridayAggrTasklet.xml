@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/batch
+						http://www.springframework.org/schema/batch/spring-batch.xsd">
+						
+	<job id="blackFridayAggrTaskletJob" xmlns="http://www.springframework.org/schema/batch">
+		<step id="blackFridayAggrStep">
+			<tasklet ref="blackFridayAggrTasklet" transaction-manager="transactionManager" />
+		</step>
+	</job>
+	
+	<!-- TASKLET BEAN 설정 -->
+	<bean id="blackFridayAggrTasklet" class="com.batchguide.tasklet.CommonTasklet">
+		<property name="sqlId" value="insertSelectBlackFridayForAggregation" />
+	</bean>
+	
+</beans>

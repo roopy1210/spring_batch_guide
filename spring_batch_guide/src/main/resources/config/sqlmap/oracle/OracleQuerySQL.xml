@@ -88,4 +88,41 @@
 		 WHERE MOD(ORA_HASH(USER_ID),#{parallelTotal,jdbcType=INTEGER})=#{parallelIndex,jdbcType=INTEGER}
 	]]>
 	</select>	
+	
+	<insert id="insertSelectBlackFridayForAggregation">
+		INSERT /* insertSelectBlackFridayForAggregation| BlackFriday 집계데이터저장 | OracleQuerySQL.xml */ 
+		  INTO BLACK_FRIDAY_AGGRGT 
+		  	   (USER_ID
+		  	  , PRODUCT_ID
+		  	  , GENDER
+		  	  , AGE
+		  	  , OCCUPATION
+		  	  , CITY_CATEGORY
+		  	  , STAY_IN_CURRENT_CITY_YEARS
+		  	  , MARITAL_STATUS
+		  	  , PRODUCT_CATEGORY_1
+		  	  , PRODUCT_CATEGORY_2
+		  	  , PRODUCT_CATEGORY_3
+		  	  , PURCHASE)
+		SELECT USER_ID
+		     , PRODUCT_ID
+		     , GENDER
+		     , AGE
+		     , OCCUPATION
+		     , CITY_CATEGORY
+		     , MAX(STAY_IN_CURRENT_CITY_YEARS)		AS STAY_IN_CURRENT_CITY_YEARS
+		     , MAX(MARITAL_STATUS)								AS MARITAL_STATUS
+		     , MAX(PRODUCT_CATEGORY_1) 						AS PRODUCT_CATEGORY_1
+		     , MAX(PRODUCT_CATEGORY_2) 						AS PRODUCT_CATEGORY_2
+		     , MAX(PRODUCT_CATEGORY_3) 						AS PRODUCT_CATEGORY_3
+		     , SUM(PURCHASE)											AS PURCHASE
+		  FROM BLACK_FRIDAY 
+		 GROUP BY USER_ID
+		        , PRODUCT_ID
+		        , GENDER
+		        , AGE
+		        , OCCUPATION
+		        , CITY_CATEGORY
+		        , MARITAL_STATUS
+	</insert>	
 </mapper>
