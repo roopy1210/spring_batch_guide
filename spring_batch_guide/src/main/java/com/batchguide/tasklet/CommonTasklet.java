@@ -15,7 +15,7 @@ public class CommonTasklet implements Tasklet {
 	SqlSessionTemplate sqlSessionTemplate;
 	
 	private String sqlId;
-
+  
 	@Override
 	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 		sqlSessionTemplate.insert(sqlId);

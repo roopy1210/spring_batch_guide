@@ -16,5 +16,5 @@
 	<bean id="blackFridayAggrTasklet" class="com.batchguide.tasklet.CommonTasklet">
 		<property name="sqlId" value="insertSelectBlackFridayForAggregation" />
 	</bean>
-	
+	  
 </beans>
